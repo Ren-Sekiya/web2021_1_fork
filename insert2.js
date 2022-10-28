@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test2.db');
 
 let sql = `
-insert into station ("name", "line_id") values ("岩根駅", 1);
+insert into line ("name") values ("内房線");
 `
 
 db.serialize( () => {

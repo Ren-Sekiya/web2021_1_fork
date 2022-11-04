@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('test2.db');
+const db = new sqlite3.Database('test_1.db');
 
 let sql = `
 select * from line;

@@ -6,13 +6,17 @@
 </head>
 <body>
   <h2>情報一覧</h2>
+  <form>
+    <a href="/public/search.html">絞り込む</a>&nbsp
+    <a href="/public/add.html">データの追加</a>
+  </form>
   <table>
       <% for( let row of data ) { %>
         <tr>
             <td><%= row.id %></td>
             <td><%= row.name %></td>
             <td><%= row.name2 %></td>
-            <td><%= row.name3%></td>
+            <td><a href="/public/<%= row.id %>"><%= row.name3%></a></td>
         </tr>
       <% } %>
   </table>

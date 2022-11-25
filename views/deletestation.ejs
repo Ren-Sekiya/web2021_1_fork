@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Show message</title>
+</head>
+<body>
+  <h2>追加したいゲームセンター名を入力してください。</h2>
+  <form action="/insertstation" name="insertform" method="post">
+    路線名：<input type="text" id="newstation" name="newstation">
+    <input type="submit" value="登録" id="button" disabled>
+    <script>
+      function inputchange(event){
+        let button = document.getElementById('button');
+        button.disabled = false;
+      }
+
+      let text = document.getElementById('newstation');
+      text.addEventListener('change', inputchange);
+    </script>
+  </form>
+  <br>
+  現在登録されている路線名↓
+  <table>
+      <% for( let row of data ) { %>
+        <tr>
+            <td><%= row.id %></td>
+            <td><%= row.name %></td>
+        </tr>
+      <% } %>
+  </table>
+  <form action="/default">
+    <a href="/public/insert.html">前のページに戻る</a>&emsp;
+    <a href="/default">トップページに戻る</a>
+  </form>
+</body>
+</html>

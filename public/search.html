@@ -6,10 +6,11 @@
 </head>
 <body>
   <h2>その心、絞り込みたいんだね？</h2>
+    <p>絞り込みたい「路線名」または「駅名」または「ゲームセンター名」を入力してください。駅名は～駅まで入力してください。</p>
   <form action="/sibo">
-    <p>絞り込みたい項目に入力してください</p><br>
-    駅名：<input type="text" name="si"><br>
-    ゲームセンター名：<input type="text" name="gsi">
+  <input type="text" name="anyname" id="anyname">&nbsp;(例：木更津駅)<br>
+  <input type="submit" value="送信"><br><br>
+  <a href="/default">トップページに戻る</a>  
   </form>
 </body>
 </html>

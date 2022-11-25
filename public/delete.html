@@ -1,0 +1,21 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>データ削除ページ</title>
+</head>
+<body>
+  <h2>削除したい項目を選択してください。</h2>
+  <form action="/nowline">
+    <input type="submit" name="linedelete" value="路線名">
+  </form>&nbsp;
+  <form action="/deletestation">
+    <input type="submit" name="stationdelete" value="駅名">
+  </form>&nbsp;
+  <form action="/deletegamecenter">
+    <input type="submit" name="gamecenterdelete" value="ゲームセンター名">
+    <br>
+  </form><br>
+  <a href="/default">トップページに戻る</a>
+</body>
+</html>

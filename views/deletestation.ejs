@@ -5,22 +5,22 @@
   <title>Show message</title>
 </head>
 <body>
-  <h2>追加したいゲームセンター名を入力してください。</h2>
-  <form action="/insertstation" name="insertform" method="post">
-    路線名：<input type="text" id="newstation" name="newstation">
-    <input type="submit" value="登録" id="button" disabled>
+  <h2>削除したい駅名を入力してください。</h2>
+  <form action="/deletestation" name="insertform" method="post">
+    路線名：<input type="text" id="deletestation" name="deletestation">
+    <input type="submit" value="削除" id="button" disabled>
     <script>
       function inputchange(event){
         let button = document.getElementById('button');
         button.disabled = false;
       }
 
-      let text = document.getElementById('newstation');
+      let text = document.getElementById('deletestation');
       text.addEventListener('change', inputchange);
     </script>
   </form>
   <br>
-  現在登録されている路線名↓
+  現在登録されている駅名↓
   <table>
       <% for( let row of data ) { %>
         <tr>
@@ -30,7 +30,7 @@
       <% } %>
   </table>
   <form action="/default">
-    <a href="/public/insert.html">前のページに戻る</a>&emsp;
+    <a href="/public/delete.html">前のページに戻る</a>&emsp;
     <a href="/default">トップページに戻る</a>
   </form>
 </body>

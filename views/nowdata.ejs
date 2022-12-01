@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Show message</title>
+</head>
+<body>
+  <h2>追加したいデータのIDを入力してください。</h2>
+  <form action="/insertdata" name="insertform" method="post">
+    路線ID：<input type="text" id="newline" name="newline"><br>
+    駅ID：<input type="text" id="newstation" name="newstation"><br>
+    ゲームセンターID：<input type="text" id="newgamecenter" name="newgamecenter"><br>
+    <input type="submit" value="登録" id="button" disabled>
+    <script>
+      function inputchange(event){
+        let button = document.getElementById('button');
+        button.disabled = false;
+      }
+
+      let text = document.getElementById('newgamecenter');
+      text.addEventListener('change', inputchange);
+    </script>
+  </form>
+  <br>
+  現在登録されている駅名、路線ID、ゲームセンターID↓
+  <table>
+      <tr>
+        <td>駅名</td>
+        <td>駅ID&emsp;</td>
+        <td>路線名</td>
+        <td>路線ID&emsp;</td>
+        <td>ゲームセンター名</td>
+        <td>ゲームセンターID</td>
+      </tr>
+      <% for( let row of data ) { %>
+        <tr>
+          <td><%= row.sname %>&emsp;</td>
+          <td><%= row.sid %></td>
+          <td><%= row.lname %>&emsp;</td>
+          <td><%= row.lid %></td>
+          <td><%= row.gname %>&emsp;</td>
+          <td><%= row.gid %></td>
+        </tr>
+      <% } %>
+  </table>
+  <form action="/default">
+    <a href="/public/insert.html">該当するデータがないときはこちら</a>&emsp;
+    <a href="/default">トップページに戻る</a>
+  </form>
+</body>
+</html>

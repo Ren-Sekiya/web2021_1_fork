@@ -7,7 +7,7 @@
 <body>
   <h2>追加したいゲームセンター名を入力してください。</h2>
   <form action="/insertgamecenter" name="insertform" method="post">
-    路線名：<input type="text" id="newgamecenter" name="newgamecenter">
+    ゲームセンター名：<input type="text" id="newgamecenter" name="newgamecenter">
     <input type="submit" value="登録" id="button" disabled>
     <script>
       function inputchange(event){
@@ -20,7 +20,7 @@
     </script>
   </form>
   <br>
-  現在登録されている路線名↓
+  現在登録されているゲームセンター名↓
   <table>
       <% for( let row of data ) { %>
         <tr>

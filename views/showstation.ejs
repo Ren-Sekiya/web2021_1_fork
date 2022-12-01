@@ -7,9 +7,7 @@
 <body>
   <h2>追加したい駅名を入力してください。</h2>
   <form action="/insertstation" name="insertform" method="post">
-    駅名：<input type="text" id="newstation" name="newstation">&nbsp;
-    路線ID：<input type="text" id="newstation" name="newstation">&nbsp;
-    ゲームセンターID：<input type="text" id="newstation" name="newstation">&nbsp;
+    駅名：<input type="text" id="newstation" name="newstation">
     <input type="submit" value="登録" id="button" disabled>
     <script>
       function inputchange(event){
@@ -22,12 +20,12 @@
     </script>
   </form>
   <br>
-  現在登録されている路線名↓
+  現在登録されている駅名↓
   <table>
       <% for( let row of data ) { %>
         <tr>
-            <td><%= row.id %></td>
-            <td><%= row.name %></td>
+          <td><%= row.id %>&emsp;</td>
+          <td><%= row.name %></td>
         </tr>
       <% } %>
   </table>

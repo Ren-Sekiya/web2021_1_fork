@@ -2,9 +2,11 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test_1.db');
 
 let schema = `
-create table station(
+create table allinfo(
   id integer primary key,
-  name text not null
+  lineid integer not null,
+  stationid integer not null,
+  gamecenterid integer not null
 );
 `
 

@@ -28,9 +28,8 @@ app.get("/db", (req, res) => {
 app.get("/default", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
-select station.id, station.name, line.name as name2, gamecenter.name as name3 from station inner join line
-on station.line_id = line.id inner join gamecenter
-on station.game_id = gamecenter.id;
+select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.lineid = line.id inner join station on allinfo.stationid = station.id inner join gamecenter
+on allinfo.gamecenterid = gamecenter.id;
 `;
     //console.log(sql);    // ②
     db.serialize( () => {
@@ -44,12 +43,45 @@ on station.game_id = gamecenter.id;
     })
 })
 
+app.get("/insert", (req, res) => {
+    //console.log(req.query.pop);    // ①
+    //console.log(sql);    // ②
+    let sql=`select station.id as sid, station.name as sname, line.id as lid, line.name as lname, gamecenter.id as gid, gamecenter.name as gname from gamecenter left outer join station on gamecenter.id = station.id left outer join line on gamecenter.id = line.id`;
+    db.serialize( () => {
+        db.all(sql, (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            //console.log(sql);    // ③
+            res.render('nowdata', {data:data});
+        })
+    })
+})
+
+app.post("/insertdata", (req, res) => {
+    //console.log(req.query.pop);    // ①
+  let sql = "";
+  if(req.body.newline && req.body.newstation && req.body.newgamecenter){
+    sql=`insert into allinfo("lineid", "stationid", "gamecenterid") values(` + req.body.newline + `,` + req.body.newstation + `,` + req.body.newgamecenter + `);`;
+  }
+  console.log(sql);    // ②
+    db.serialize( () => {
+        db.run(sql, (error, row) => {
+            console.log(sql); 
+            if( error ) {
+                res.render('nowdata', {mes:"何も入力されていません。"});
+            }
+            //console.log(data);    // ③
+            res.redirect('/default');
+        })
+    })
+})
+
 app.get("/sibo", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
-select station.id, station.name, line.name as name2, gamecenter.name as name3 from station inner join line
-on station.line_id = line.id inner join gamecenter
-on station.game_id = gamecenter.id `;
+select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.lineid = line.id inner join station on allinfo.stationid = station.id inner join gamecenter
+on allinfo.gamecenterid = gamecenter.id`;
     if( req.query.anyname ) sql += `where line.name = `+ `'`+ req.query.anyname + `' or ` + `station.name = `+ `'` + req.query.anyname + `' or ` + `gamecenter.name = ` + `'`+ req.query.anyname + `'`;
     sql += `;`;
     console.log(sql);
@@ -106,7 +138,7 @@ app.post("/insertline", (req, res) => {
         db.run(sql, (error, row) => {
             console.log(sql); 
             if( error ) {
-                res.render('showline', {mes:"何も入力されていません。"});
+                res.render('show', {mes:"何も入力されていません。"});
             }
             //console.log(data);    // ③
             res.redirect('/line');
@@ -138,8 +170,23 @@ app.get("/station", (req, res) => {
             if( error ) {
                 res.render('show', {mes:"エラーです"});
             }
-            //console.log(data);    // ③
+            //console.log(sql);    // ③
             res.render('showstation', {data:data});
+        })
+    })
+})
+
+app.get("/nowstation", (req, res) => {
+    //console.log(req.query.pop);    // ①
+    //console.log(sql);    // ②
+    let sql=`select * from station`;
+    db.serialize( () => {
+        db.all(sql, (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            //console.log(data);    // ③
+            res.render('deletestation', {data:data});
         })
     })
 })
@@ -148,9 +195,9 @@ app.post("/insertstation", (req, res) => {
     //console.log(req.query.pop);    // ①
   let sql = "";
   if(req.body.newstation){
-    sql=`insert into line("name") values("` + req.body.newstation + `");`;
+    sql=`insert into station("name") values("` + req.body.newstation + `");`;
   }
-  console.log(sql);    // ②
+  //console.log(sql);    // ②
     db.serialize( () => {
         db.run(sql, (error, row) => {
             console.log(sql); 
@@ -159,6 +206,21 @@ app.post("/insertstation", (req, res) => {
             }
             //console.log(data);    // ③
             res.redirect('/station');
+        })
+    })
+})
+
+app.post("/deletestation", (req, res) => {
+    //console.log(req.query.pop);    // ①
+  sql=`delete from station where name="` + req.body.deletestation + `";`;
+  console.log(sql);    // ②
+    db.serialize( () => {
+        db.run(sql, (error, row) => { 
+            if( error ) {
+                res.render('show', {mes:"何も入力されていません。"});
+            }
+            //console.log(data);    // ③
+            res.redirect('/nowstation');
         })
     })
 })
@@ -178,10 +240,25 @@ app.get("/gamecenter", (req, res) => {
     })
 })
 
+app.get("/nowgamecenter", (req, res) => {
+    //console.log(req.query.pop);    // ①
+    //console.log(sql);    // ②
+    let sql=`select * from gamecenter`;
+    db.serialize( () => {
+        db.all(sql, (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            //console.log(data);    // ③
+            res.render('deletegamecenter', {data:data});
+        })
+    })
+})
+
 app.post("/insertgamecenter", (req, res) => {
     //console.log(req.query.pop);    // ①
   let blank = req.body.newline;
-  let sql=`insert into line("name") values("` + req.body.newgamecenter + `");`;
+  let sql=`insert into gamecenter("name") values("` + req.body.newgamecenter + `");`;
   if(blank == ""){
     "abc" + sql;
   }
@@ -194,6 +271,21 @@ app.post("/insertgamecenter", (req, res) => {
             }
             //console.log(data);    // ③
             res.redirect('/gamecenter');
+        })
+    })
+})
+
+app.post("/deletegamecenter", (req, res) => {
+    //console.log(req.query.pop);    // ①
+  sql=`delete from gamecenter where name="` + req.body.deletegamecenter + `";`;
+  console.log(sql);    // ②
+    db.serialize( () => {
+        db.run(sql, (error, row) => { 
+            if( error ) {
+                res.render('show', {mes:"何も入力されていません。"});
+            }
+            //console.log(data);    // ③
+            res.redirect('/nowgamecenter');
         })
     })
 })

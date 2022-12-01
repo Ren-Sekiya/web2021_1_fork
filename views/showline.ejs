@@ -8,6 +8,7 @@
   <h2>追加したい路線名を入力してください。</h2>
   <form action="/insertline" name="insertform" method="post">
     路線名：<input type="text" id="newline" name="newline">
+    <input type="submit" value="登録" id="button" disabled>
     <script>
       function inputchange(event){
         let button = document.getElementById('button');

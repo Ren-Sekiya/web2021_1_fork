@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  const message = "あなたは最寄りのゲームセンターを検索することができます。";
+  const message = "あなたは駅チカのゲームセンターを検索することができます。";
   res.render('show', {mes:message});
 });
 
@@ -28,8 +28,8 @@ app.get("/db", (req, res) => {
 app.get("/default", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
-select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.lineid = line.id inner join station on allinfo.stationid = station.id inner join gamecenter
-on allinfo.gamecenterid = gamecenter.id;
+select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.linename = line.name inner join station on allinfo.stationname = station.name inner join gamecenter
+on allinfo.gamecentername = gamecenter.name;
 `;
     //console.log(sql);    // ②
     db.serialize( () => {
@@ -46,7 +46,7 @@ on allinfo.gamecenterid = gamecenter.id;
 app.get("/insert", (req, res) => {
     //console.log(req.query.pop);    // ①
     //console.log(sql);    // ②
-    let sql=`select station.id as sid, station.name as sname, line.id as lid, line.name as lname, gamecenter.id as gid, gamecenter.name as gname from gamecenter left outer join station on gamecenter.id = station.id left outer join line on gamecenter.id = line.id`;
+    let sql=`select station.id as sid, station.name as sname, line.id as lid, line.name as lname, gamecenter.id as gid, gamecenter.name as gname from station left outer join line on station.id = line.id left outer join gamecenter on station.id = gamecenter.id`;
     db.serialize( () => {
         db.all(sql, (error, data) => {
             if( error ) {
@@ -58,11 +58,44 @@ app.get("/insert", (req, res) => {
     })
 })
 
+app.get("/delete", (req, res) => {
+    //console.log(req.query.pop);    // ①
+    let sql = `
+select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.linename = line.name inner join station on allinfo.stationname = station.name inner join gamecenter
+on allinfo.gamecentername = gamecenter.name;
+`;
+    //console.log(sql);    // ②
+    db.serialize( () => {
+        db.all(sql, (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            //console.log(data);    // ③
+            res.render('delete', {data:data});
+        })
+    })
+})
+
+app.post("/deletedata", (req, res) => {
+    //console.log(req.query.pop);    // ①
+  sql=`delete from allinfo where id="` + req.body.number + `";`;
+  console.log(sql);    // ②
+    db.serialize( () => {
+        db.run(sql, (error, row) => { 
+            if( error ) {
+                res.render('show', {mes:"何も入力されていません。"});
+            }
+            //console.log(data);    // ③
+            res.redirect('/delete');
+        })
+    })
+})
+
 app.post("/insertdata", (req, res) => {
     //console.log(req.query.pop);    // ①
   let sql = "";
   if(req.body.newline && req.body.newstation && req.body.newgamecenter){
-    sql=`insert into allinfo("lineid", "stationid", "gamecenterid") values(` + req.body.newline + `,` + req.body.newstation + `,` + req.body.newgamecenter + `);`;
+    sql=`insert into allinfo("linename", "stationname", "gamecentername") values('` + req.body.newline + `','` + req.body.newstation + `','` + req.body.newgamecenter + `');`;
   }
   console.log(sql);    // ②
     db.serialize( () => {
@@ -80,8 +113,8 @@ app.post("/insertdata", (req, res) => {
 app.get("/sibo", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
-select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.lineid = line.id inner join station on allinfo.stationid = station.id inner join gamecenter
-on allinfo.gamecenterid = gamecenter.id`;
+select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.linename = line.name inner join station on allinfo.stationname = station.name inner join gamecenter
+on allinfo.gamecentername = gamecenter.name `;
     if( req.query.anyname ) sql += `where line.name = `+ `'`+ req.query.anyname + `' or ` + `station.name = `+ `'` + req.query.anyname + `' or ` + `gamecenter.name = ` + `'`+ req.query.anyname + `'`;
     sql += `;`;
     console.log(sql);
@@ -92,7 +125,7 @@ on allinfo.gamecenterid = gamecenter.id`;
                 res.render('show', {mes:"エラーです"});
             }
             //console.log(data);    // ③
-            res.render('all', {data:data});
+            res.render('search', {data:data});
         })
     })
 })
@@ -148,7 +181,7 @@ app.post("/insertline", (req, res) => {
 
 app.post("/deleteline", (req, res) => {
     //console.log(req.query.pop);    // ①
-  sql=`delete from line where name="` + req.body.deleteline + `";`;
+  sql=`delete from line where id="` + req.body.deleteline + `";`;
   console.log(sql);    // ②
     db.serialize( () => {
         db.run(sql, (error, row) => { 
@@ -212,7 +245,7 @@ app.post("/insertstation", (req, res) => {
 
 app.post("/deletestation", (req, res) => {
     //console.log(req.query.pop);    // ①
-  sql=`delete from station where name="` + req.body.deletestation + `";`;
+  sql=`delete from station where id="` + req.body.deletestation + `";`;
   console.log(sql);    // ②
     db.serialize( () => {
         db.run(sql, (error, row) => { 
@@ -277,7 +310,7 @@ app.post("/insertgamecenter", (req, res) => {
 
 app.post("/deletegamecenter", (req, res) => {
     //console.log(req.query.pop);    // ①
-  sql=`delete from gamecenter where name="` + req.body.deletegamecenter + `";`;
+  sql=`delete from gamecenter where id="` + req.body.deletegamecenter + `";`;
   console.log(sql);    // ②
     db.serialize( () => {
         db.run(sql, (error, row) => { 

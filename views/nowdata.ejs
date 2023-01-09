@@ -5,11 +5,29 @@
   <title>Show message</title>
 </head>
 <body>
-  <h2>追加したいデータのIDを入力してください。</h2>
+  <h2>追加したいデータを選択してください。</h2>
   <form action="/insertdata" name="insertform" method="post">
-    路線ID：<input type="text" id="newline" name="newline"><br>
-    駅ID：<input type="text" id="newstation" name="newstation"><br>
-    ゲームセンターID：<input type="text" id="newgamecenter" name="newgamecenter"><br>
+    路線名:<select name="newline" id="newline">
+      <option value="0">選択してください</option>
+      <% for( let row of data ) { %>
+        <% if(row.lname == null) break; %>
+        <option value="<%= row.lname %>" name="newline"><%= row.lname %></option>
+      <% } %>
+      </select><br>
+    駅名:<select id="newstation" name="newstation" disabled>
+      <option value="0">選択してください</option>
+        <% for( let row of data ) { %>
+        <% if(row.sname == null) break; %>
+        <option value="<%= row.sname %>" name="newstation"><%= row.sname %></option>
+      <% } %>
+    </select><br>
+     ゲームセンター名:<select id="gamecentername" name="newgamecenter" disabled>
+      <option value="0">選択してください</option>
+        <% for( let row of data ) { %>
+        <% if(row.gname == null) break; %>
+        <option value="<%= row.gname %>" name="newgamecenter"><%= row.gname %></option>
+      <% } %>
+      </select><br>
     <input type="submit" value="登録" id="button" disabled>
     <script>
       function inputchange(event){
@@ -17,32 +35,26 @@
         button.disabled = false;
       }
 
-      let text = document.getElementById('newgamecenter');
+      let text = document.getElementById('gamecentername');
       text.addEventListener('change', inputchange);
+      
+      function inputchange2(event){
+        let pull2 = document.getElementById('newstation');
+        pull2.disabled = false;
+      }
+
+      let text2 = document.getElementById('newline');
+      text2.addEventListener('change', inputchange2);
+      
+      function inputchange3(event){
+        let pull3 = document.getElementById('gamecentername');
+        pull3.disabled = false;
+      }
+
+      let text3 = document.getElementById('newstation');
+      text3.addEventListener('change', inputchange3);
     </script>
   </form>
-  <br>
-  現在登録されている駅名、路線ID、ゲームセンターID↓
-  <table>
-      <tr>
-        <td>駅名</td>
-        <td>駅ID&emsp;</td>
-        <td>路線名</td>
-        <td>路線ID&emsp;</td>
-        <td>ゲームセンター名</td>
-        <td>ゲームセンターID</td>
-      </tr>
-      <% for( let row of data ) { %>
-        <tr>
-          <td><%= row.sname %>&emsp;</td>
-          <td><%= row.sid %></td>
-          <td><%= row.lname %>&emsp;</td>
-          <td><%= row.lid %></td>
-          <td><%= row.gname %>&emsp;</td>
-          <td><%= row.gid %></td>
-        </tr>
-      <% } %>
-  </table>
   <form action="/default">
     <a href="/public/insert.html">該当するデータがないときはこちら</a>&emsp;
     <a href="/default">トップページに戻る</a>

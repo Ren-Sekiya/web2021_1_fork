@@ -5,14 +5,11 @@
   <title>Show message</title>
 </head>
 <body>
-  <h2>情報一覧</h2>
-  <form>
-    <a href="/public/search.html">絞り込む</a>&nbsp
-    <a href="/insert">データの追加</a>&nbsp
-    <a href="/delete">データの削除</a>
-  </form>
+  <h2>データの削除</h2>
+  <p>削除したい番号を押してください。</p>
   <br>
-  <table>
+  <form action="/deletedata" method="post">
+    <table>
       <tr>
         <td>登録番号&emsp;</td>
         <td>路線名&emsp;</td>
@@ -21,12 +18,17 @@
       </tr>
       <% for( let row of data ) { %>
         <tr>
-            <td><%= row.aid %></td>
+            <td><input type="submit" value="<%=row.aid %>" id="aidbutton" name="number"></td>
             <td><%= row.name %>&emsp;</td>
             <td><%= row.name2 %>&emsp;</td>
             <td><a href="/public/<%= row.id %>"><%= row.name3 %></a></td>
         </tr>
       <% } %>
-  </table>
+    </table>
+  </form>
+  <br>
+  <form>
+    <a href="/default">前のページに戻る</a>
+  </form>
 </body>
 </html>

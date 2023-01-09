@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/public/style.css">
+  <title>絞り込み機能</title>
+</head>
+<body>
+  <h2>絞り込み</h2>
+    <p>絞り込みたい路線の名前または駅の名前またはゲームセンターの名前を選択してください。<br></p>
+  <form action="/sibo">
+    <select name="anyname" id="keyword">
+      <option value="0">選択してください</option>
+      <option value="1" disabled>路線名↓</option>
+      <% for( let row of data ) { %>
+        <% if(row.lname == null) break; %>
+        <option value="<%= row.lname %>" name="anyname"><%= row.lname %></option>
+      <% } %>
+        <option value="2"disabled>駅名↓</option>
+      <% for( let row of data ) { %>
+        <% if(row.sname == null) break; %>
+        <option value="<%= row.sname %>" name="anyname"><%= row.sname %></option>
+      <% } %>
+        <option value="3"disabled>ゲームセンター名↓</option>
+      <% for( let row of data ) { %>
+        <% if(row.gname == null) break; %>
+        <option value="<%= row.gname %>" name="anyname"><%= row.gname %></option>
+      <% } %>
+    </select><br>
+    <br>
+    <input type="submit" value="絞り込む" id="button" disabled>
+    <script>
+      function inputchange(event){
+        let button = document.getElementById('button');
+        button.disabled = false;
+      }
+
+      let text = document.getElementById('keyword');
+      text.addEventListener('change', inputchange);
+    </script>
+  </form>
+  <br>
+  <a href="/default">トップページに戻る</a>  
+  </form>
+</body>
+</html>

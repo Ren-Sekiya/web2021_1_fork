@@ -108,11 +108,30 @@ app.post("/insertdata", (req, res) => {
     })
 })
 
+app.get("/search", (req, res) => {
+    //console.log(req.query.pop);    // ①
+    //console.log(sql);    // ②
+    let sql=`select station.id as sid, station.name as sname, line.id as lid, line.name as lname, gamecenter.id as gid, gamecenter.name as gname from station left outer join line on station.id = line.id left outer join gamecenter on station.id = gamecenter.id`;
+    db.serialize( () => {
+        db.all(sql, (error, data) => {
+            if( error ) {
+                res.render('show', {mes:"エラーです"});
+            }
+            //console.log(sql);    // ③
+            res.render('keyword', {data:data});
+        })
+    })
+})
+
 app.get("/sibo", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
 select allinfo.id as id, linename, stationname, gamecentername,url.url from allinfo inner join mediumtable on allinfo.gamecentername = mediumtable.name inner join url on allinfo.id = url.id `;
-    if( req.query.anyname ) sql += `where linename = `+ `'`+ req.query.anyname + `' or ` + `stationname = `+ `'` + req.query.anyname + `' or ` + `gamecentername = ` + `'`+ req.query.anyname + `'`;
+    if( req.query.anyname ){
+      sql += `where linename = `+ `'`+ req.query.anyname + `' or ` + `stationname = `+ `'` + req.query.anyname + `' or ` + `gamecentername = ` + `'`+ req.query.anyname + `'`;
+    }else{
+      sql += `where linename = ""`+ `or ` + `stationname = ""` + ` or ` + `gamecentername = ""` ;
+    }
     sql += `;`;
     console.log(sql);
     //console.log(sql);    // ②

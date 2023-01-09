@@ -23,7 +23,7 @@
             <td><%= row.id %></td>
             <td><%= row.linename %>&emsp;</td>
             <td><%= row.stationname %>&emsp;</td>
-            <td><a href="/public/<%= row.id %>"><%= row.gamecentername %></a></td>
+            <td><a href="<%= row.url %>"><%= row.gamecentername %></a></td>
         </tr>
       <% } %>
   </table>

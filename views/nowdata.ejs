@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/public/style.css">
   <title>Show message</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
         <% if(row.gname == null) break; %>
         <option value="<%= row.gname %>" name="newgamecenter"><%= row.gname %></option>
       <% } %>
-      </select><br>
+      </select><br><br>
     <input type="submit" value="登録" id="button" disabled>
     <script>
       function inputchange(event){
@@ -55,6 +56,7 @@
       text3.addEventListener('change', inputchange3);
     </script>
   </form>
+  <br>
   <form action="/default">
     <a href="/public/insert.html">該当するデータがないときはこちら</a>&emsp;
     <a href="/default">トップページに戻る</a>

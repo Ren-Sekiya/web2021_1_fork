@@ -28,10 +28,9 @@ app.get("/db", (req, res) => {
 app.get("/default", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
-select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.linename = line.name inner join station on allinfo.stationname = station.name inner join gamecenter
-on allinfo.gamecentername = gamecenter.name;
+select allinfo.id as id, linename, stationname, gamecentername,url.url from allinfo inner join mediumtable on allinfo.gamecentername = mediumtable.name inner join url on allinfo.id = url.id;
 `;
-    //console.log(sql);    // ②
+    console.log(sql);    // ②
     db.serialize( () => {
         db.all(sql, (error, data) => {
             if( error ) {
@@ -61,8 +60,7 @@ app.get("/insert", (req, res) => {
 app.get("/delete", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
-select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.linename = line.name inner join station on allinfo.stationname = station.name inner join gamecenter
-on allinfo.gamecentername = gamecenter.name;
+select * from allinfo;
 `;
     //console.log(sql);    // ②
     db.serialize( () => {
@@ -113,9 +111,8 @@ app.post("/insertdata", (req, res) => {
 app.get("/sibo", (req, res) => {
     //console.log(req.query.pop);    // ①
     let sql = `
-select allinfo.id as aid, line.name as name, station.name as name2, gamecenter.name as name3 from allinfo inner join line on allinfo.linename = line.name inner join station on allinfo.stationname = station.name inner join gamecenter
-on allinfo.gamecentername = gamecenter.name `;
-    if( req.query.anyname ) sql += `where line.name = `+ `'`+ req.query.anyname + `' or ` + `station.name = `+ `'` + req.query.anyname + `' or ` + `gamecenter.name = ` + `'`+ req.query.anyname + `'`;
+select allinfo.id as id, linename, stationname, gamecentername,url.url from allinfo inner join mediumtable on allinfo.gamecentername = mediumtable.name inner join url on allinfo.id = url.id `;
+    if( req.query.anyname ) sql += `where linename = `+ `'`+ req.query.anyname + `' or ` + `stationname = `+ `'` + req.query.anyname + `' or ` + `gamecentername = ` + `'`+ req.query.anyname + `'`;
     sql += `;`;
     console.log(sql);
     //console.log(sql);    // ②

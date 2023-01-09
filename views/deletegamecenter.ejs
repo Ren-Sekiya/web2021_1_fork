@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/public/style.css">
   <title>Show message</title>
 </head>
 <body>
   <h2>削除する番号を押してください。</h2>
   <form action="/deletegamecenter" name="insertform" method="post">
-  <br>
-  現在登録されているゲームセンター名↓
-  <table>
+  <p>現在登録されているゲームセンター名↓</p>
+  <table border="1">
       <% for( let row of data ) { %>
         <tr>
             <td><input type="submit" value="<%=row.id %>" id="idbutton" name="deletegamecenter"></td>

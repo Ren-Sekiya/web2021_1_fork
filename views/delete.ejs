@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/public/style.css">
   <title>Show message</title>
 </head>
 <body>
@@ -9,7 +10,7 @@
   <p>削除したい番号を押してください。</p>
   <br>
   <form action="/deletedata" method="post">
-    <table>
+    <table border="1">
       <tr>
         <td>登録番号&emsp;</td>
         <td>路線名&emsp;</td>
@@ -18,10 +19,10 @@
       </tr>
       <% for( let row of data ) { %>
         <tr>
-            <td><input type="submit" value="<%=row.aid %>" id="aidbutton" name="number"></td>
-            <td><%= row.name %>&emsp;</td>
-            <td><%= row.name2 %>&emsp;</td>
-            <td><a href="/public/<%= row.id %>"><%= row.name3 %></a></td>
+            <td><input type="submit" value="<%=row.id %>" id="aidbutton" name="number"></td>
+            <td><%= row.linename %>&emsp;</td>
+            <td><%= row.stationname %>&emsp;</td>
+            <td><%= row.gamecentername %></td>
         </tr>
       <% } %>
     </table>

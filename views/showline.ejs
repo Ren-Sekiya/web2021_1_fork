@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/public/style.css">
   <title>Show message</title>
 </head>
 <body>
@@ -20,8 +21,8 @@
     </script>
   </form>
   <br>
-  現在登録されている路線名↓
-  <table>
+  <p>現在登録されている路線名↓</p>
+  <table border="1">
       <% for( let row of data ) { %>
         <tr>
             <td><%= row.id %></td>

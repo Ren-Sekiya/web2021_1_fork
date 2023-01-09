@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test_1.db');
 
 let sql = `
-insert into url ("url") values ("https://www.adores.jp/tenpo/");
+insert into mediumtable ("name",urlid) values ("アドアーズ",7);
 `
 
 db.serialize( () => {

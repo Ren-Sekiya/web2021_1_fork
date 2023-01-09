@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/public/style.css">
   <title>Show message</title>
 </head>
 <body>
@@ -10,7 +11,7 @@
     <a href="/default">元に戻す</a>
   </form>
   <br>
-  <table>
+  <table border="1">
       <tr>
         <td>登録番号&emsp;</td>
         <td>路線名&emsp;</td>
@@ -19,10 +20,10 @@
       </tr>
       <% for( let row of data ) { %>
         <tr>
-            <td><%= row.aid %></td>
-            <td><%= row.name %>&emsp;</td>
-            <td><%= row.name2 %>&emsp;</td>
-            <td><a href="/public/<%= row.id %>"><%= row.name3 %></a></td>
+            <td><%= row.id %></td>
+            <td><%= row.linename %>&emsp;</td>
+            <td><%= row.stationname %>&emsp;</td>
+            <td><a href="/public/<%= row.id %>"><%= row.gamecentername %></a></td>
         </tr>
       <% } %>
   </table>

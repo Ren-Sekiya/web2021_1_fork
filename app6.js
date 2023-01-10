@@ -92,7 +92,7 @@ app.post("/deletedata", (req, res) => {
 app.post("/insertdata", (req, res) => {
     //console.log(req.query.pop);    // ①
   let sql = "";
-  if(req.body.newline && req.body.newstation && req.body.newgamecenter){
+  if(req.body.newline != "0" && req.body.newstation != "0" && req.body.newgamecenter != "0"){
     sql=`insert into allinfo("linename", "stationname", "gamecentername") values('` + req.body.newline + `','` + req.body.newstation + `','` + req.body.newgamecenter + `');`;
   }
   console.log(sql);    // ②
@@ -100,7 +100,7 @@ app.post("/insertdata", (req, res) => {
         db.run(sql, (error, row) => {
             console.log(sql); 
             if( error ) {
-                res.render('nowdata', {mes:"何も入力されていません。"});
+                res.render('show2', {mes:"入力されていない項目があります。"});
             }
             //console.log(data);    // ③
             res.redirect('/default');

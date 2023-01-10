@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('test_1.db');
 
 let sql = `
-select * from station;
+select * from mediumtable;
 `
 
 db.serialize( () => {

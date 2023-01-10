@@ -187,7 +187,7 @@ app.post("/insertline", (req, res) => {
         db.run(sql, (error, row) => {
             console.log(sql); 
             if( error ) {
-                res.render('show', {mes:"何も入力されていません。"});
+                res.render('show3', {mes:"何も入力されていません。"});
             }
             //console.log(data);    // ③
             res.redirect('/line');
@@ -251,7 +251,7 @@ app.post("/insertstation", (req, res) => {
         db.run(sql, (error, row) => {
             console.log(sql); 
             if( error ) {
-                res.render('showstation', {mes:"エラーです"});
+                res.render('show4', {mes:"エラーです"});
             }
             //console.log(data);    // ③
             res.redirect('/station');
@@ -296,7 +296,7 @@ app.get("/nowgamecenter", (req, res) => {
     db.serialize( () => {
         db.all(sql, (error, data) => {
             if( error ) {
-                res.render('show', {mes:"エラーです"});
+                res.render('show5', {mes:"エラーです"});
             }
             //console.log(data);    // ③
             res.render('deletegamecenter', {data:data});
@@ -306,17 +306,16 @@ app.get("/nowgamecenter", (req, res) => {
 
 app.post("/insertgamecenter", (req, res) => {
     //console.log(req.query.pop);    // ①
-  let blank = req.body.newline;
-  let sql=`insert into gamecenter("name") values("` + req.body.newgamecenter + `");`;
-  if(blank == ""){
-    "abc" + sql;
+  let sql = "";
+  if(req.body.newgameceter){
+    sql=`insert into gamecenter("name") values("` + req.body.newgamecenter + `");`;
   }
   console.log(sql);    // ②
     db.serialize( () => {
         db.run(sql, (error, row) => {
             console.log(sql); 
             if( error ) {
-                res.render('show', {mes:"エラーです"});
+                res.render('show5', {mes:"エラーです"});
             }
             //console.log(data);    // ③
             res.redirect('/gamecenter');
